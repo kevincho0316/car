@@ -16,7 +16,7 @@ sh start.sh
 4. finally Start car
 
 ## Diagram and Note
-![diagram](https://github.com/kevincho0316/car_remote_control_system/blob/main/readme/diagram.jpg)
+![diagram](https://github.com/kevincho0316/car/blob/main/readme/diagram.jpg)
 
 ## Running
-![running](https://github.com/kevincho0316/car_remote_control_system/blob/main/readme/capture.png)
+![running](https://github.com/kevincho0316/car/blob/main/readme/capture.png)
