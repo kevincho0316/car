@@ -76,35 +76,6 @@ def print_log(content):
 	text_log += '\n'+content
 	print(content)
 
-def get_control_data(extra_command):			#need to import in main loop
-	global message
-	[steering, pedal, gear, extra_command] = message
-
-	for event in pygame.event.get(): 
-		if event.type == pygame.JOYAXISMOTION:
-			steering = joystick.get_axis(0) + 1
-			steering = (round(steering,3) * 1000)
-		if event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYBUTTONUP:
-			brake =  joystick.get_button(6)
-			gas = joystick.get_button(7)
-			D = joystick.get_button(0)
-			P = joystick.get_button(1)
-			R = joystick.get_button(2)
-
-			if D==1:
-				gear = 2
-			elif R==1:
-				gear = 0
-			elif P==1:
-				gear = 1
-	
-			if brake == 1 and gas == 1:
-				pedal = 0      
-			else:
-				pedal = 1-brake+gas
-		
-	return [int(steering), pedal, gear,extra_command]
-
 def remap_steering(raw_steering):				#Mapping 0-2000 to given angle(RightEnd to LeftEnd)  
 	max_angle = 270    ##############MODIFY NEEDED
 	weight = max_angle/2000
@@ -169,7 +140,7 @@ def send_data():
 		client_socket,addr = server_socket_c.accept()
 
 		try:
-			# print_log('CONTROL-SERVER {} CONNECTED!'.format(addr))
+			print('CONTROL-SERVER {} CONNECTED!'.format(addr))
 			print_log('[*]CS CONNECTED!')
 			
 			while True:
@@ -219,13 +190,10 @@ while running==True :
 		if event.type == pygame.QUIT:
 			done = True
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			# If the user clicked on the input_box rect.
 			if input_box.collidepoint(event.pos):
-				# Toggle the active variable.
 				active = not active
 			else:
 				active = False
-			# Change the current color of the input box.
 			color = color_active if active else color_inactive
 		if event.type == pygame.KEYDOWN:
 			if active:
@@ -237,7 +205,6 @@ while running==True :
 					text = text[:-1]
 				else:
 					text += event.unicode
-
 
 		if event.type == pygame.JOYAXISMOTION:
 			steering = joystick.get_axis(0) + 1
