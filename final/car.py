@@ -8,7 +8,7 @@ import ast
 print('[**]Car UNIT')
 server_socket_v = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 host_name_v  = socket.gethostname()
-host_ip_v = '192.xxxx' # internal car ip
+host_ip_v = '192.xxx' # internal car ip
 print('[*]HOST IP:',host_ip_v)
 port_v = 4000
 socket_address_v = (host_ip_v,port_v)
@@ -23,7 +23,7 @@ font =  cv2.FONT_HERSHEY_PLAIN
 def receiving_data():
 	global global_message
 	client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-	host_ip = '34.xxxxx' # Control-Server IP
+	host_ip = '34.xxx' # Control-Server IP
 	port = 5004
 	client_socket.connect((host_ip,port)) 
 	data = b""

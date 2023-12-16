@@ -1,6 +1,4 @@
 # TODO
-# -external message iput
-# -external message log
 # -extra button for additional something
 
 
@@ -39,7 +37,7 @@ screen = pygame.display.set_mode(screen_size)
 ada = True 
 running = True
 
-# STEERING 
+# STEERING SETTING
 a = pygame.sprite.Sprite()
 a.image = pygame.Surface((20, 100))
 a.image.set_colorkey(BLACK)
@@ -52,9 +50,8 @@ a_group.add(a)
 position1 = (a.rect.centerx, a.rect.centery)
 angle = 0
 
-# text input
+# TEXT INPUT SETTING
 font = pygame.font.Font(None, 32)
-clock = pygame.time.Clock()
 log_box = pygame.Rect(450, 5, 190, 240-32-10-10)
 input_box = pygame.Rect(log_box.x, log_box.y + log_box.h+10, log_box.w, 32)
 color_inactive = pygame.Color('lightskyblue3')
@@ -66,7 +63,7 @@ text_log = 'Command Log'
 done = False
 
 
-#default Park
+# STARTING
 extra_command = ''
 message = [1000,1,1,extra_command]
 [steering, pedal, gear, extra_command] = message
@@ -76,8 +73,8 @@ def print_log(content):
 	text_log += '\n'+content
 	print(content)
 
-def remap_steering(raw_steering):				#Mapping 0-2000 to given angle(RightEnd to LeftEnd)  
-	max_angle = 270    ##############MODIFY NEEDED
+def remap_steering(raw_steering):	#Mapping 0-2000 to given angle(RightEnd to LeftEnd)  
+	max_angle = 270    				##############MODIFY NEEDED
 	weight = max_angle/2000
 	return -(raw_steering * weight)+(max_angle/2)
 
@@ -89,7 +86,7 @@ def convert_opencv_img_to_pygame(opencv_image):
 
 def get_vid():		#getting vid from video_cache server
 	global frame
-	host_ip_v = '34.xxxxx' # Video-Server IP
+	host_ip_v = '34.xxx' # Video-Server IP
 	port_v = 4004
 	data = b""
 	payload_size = struct.calcsize("Q")
@@ -115,8 +112,6 @@ def get_vid():		#getting vid from video_cache server
 				data  = data[msg_size:]
 				frame = pickle.loads(frame_data)
 					
-				
-				
 		except Exception as e:
 			print_log(f"[*]VS DISCONNECTED")#video server disconnected
 			pass
@@ -126,15 +121,13 @@ def send_data():
 	global message
 	server_socket_c = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	host_name_c  = socket.gethostname()
-	host_ip_c = '192.xxxxx' # Client IP address
+	host_ip_c = '192.xxx' # Client IP address
 	print('HOST IP:',host_ip_c)
 	port_c = 5000
 	socket_address_c = (host_ip_c,port_c)
 	server_socket_c.bind(socket_address_c)
 	server_socket_c.listen()
 	print("Listening at",socket_address_c)
-
-
 
 	while True:
 		client_socket,addr = server_socket_c.accept()
@@ -185,8 +178,8 @@ thread_c.start()
 
 while running==True :
 	screen.fill(BLACK)
-	
 	for event in pygame.event.get(): 
+		# TEXT INPUT
 		if event.type == pygame.QUIT:
 			done = True
 		if event.type == pygame.MOUSEBUTTONDOWN:
@@ -205,7 +198,7 @@ while running==True :
 					text = text[:-1]
 				else:
 					text += event.unicode
-
+		# JOYSTICK
 		if event.type == pygame.JOYAXISMOTION:
 			steering = joystick.get_axis(0) + 1
 			steering = (round(steering,3) * 1000)
@@ -229,7 +222,7 @@ while running==True :
 				pedal = 1-brake+gas
 
 
-# text input
+	# text input
 	txt_surface = font.render(text, True, color)
 	txt_log_surface = font.render(text_log, True, color)
 	screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
